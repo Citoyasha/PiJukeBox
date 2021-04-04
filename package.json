@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@yimura/scraper": "^1.2.0",
+    "socket.io": "^4.0.1"
+  }
+}
