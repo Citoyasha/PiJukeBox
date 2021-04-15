@@ -3,8 +3,7 @@ var http = require("http").createServer(handler);
 var fs = require("fs");
 var io = require("socket.io")(http);
 http.listen(8080);
-const Scraper = require("@yimura/scraper").default;
-const youtube = new Scraper();
+const usetube = require("usetube");
 var yt_arr = [];
 var playing = 0;
 
@@ -49,13 +48,13 @@ case "!v":
   exec(`amixer set 'Master' ${arg}%`);
   break;
 case "!m":
-  youtube.search(arg).then((results) => {
-    socket.emit("search0", results.videos[0].title, results.videos[0].thumbnail,
-                results.videos[0].link);
-    socket.emit("search1", results.videos[1].title, results.videos[1].thumbnail,
-                results.videos[1].link);
-    socket.emit("search2", results.videos[2].title, results.videos[2].thumbnail,
-                results.videos[2].link);
+  usetube.searchVideo(arg).then((r) => {
+    socket.emit("search0", r.videos[0].original_title, `https://i.ytimg.com/vi/${r.videos[0].id}/hqdefault.jpg`,
+                `https://www.youtube.com/watch?v=${r.videos[0].id}`);
+    socket.emit("search1", r.videos[1].original_title, `https://i.ytimg.com/vi/${r.videos[1].id}/hqdefault.jpg`,
+                `https://www.youtube.com/watch?v=${r.videos[1].id}`);
+    socket.emit("search2", r.videos[2].original_title, `https://i.ytimg.com/vi/${r.videos[2].id}/hqdefault.jpg`,
+                `https://www.youtube.com/watch?v=${r.videos[2].id}`);
   });
   break;
 case "!l":
