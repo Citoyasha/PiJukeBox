@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+    <title>Jukey</title>
+  </head>
+  <body>
+    <h1 style="text-align: center">Youtube JukeBox admin</h1>
+    <div style="text-align: center">
+      <div>
+        <p id="token">Token...</p>
+      <button
+        type="button"
+        id="gen_token"
+      >
+        Generate
+      </button>
+
+      </div>
+      <input
+        class="search"
+        placeholder="Search.."
+        name="search"
+        id="inp"
+        type="text"
+      />
+      <button
+        type="button"
+        id="btn"
+        onclick="input=document.getElementById('inp').value"
+      >
+        Search
+      </button>
+      <h2 id="header" style="text-align: center"></h2>
+
+      <br />
+      <table
+        style="text-align: center"
+        id="tbl"
+        style="
+          width: 527px;
+          text-align: left;
+          margin-left: auto;
+          margin-right: auto;
+          height: 127px;
+        "
+        hidden="true"
+        border="3"
+      >
+        <tbody>
+          <tr>
+            <td>
+              <br />
+              <img id="thumb1" src="" />
+              <p id="thumb1_t"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <br />
+              <img id="thumb2" src="" />
+              <p id="thumb2_t"></p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <br />
+              <img id="thumb3" src="" />
+              <p id="thumb3_t"></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="slidecontainer">
+        <h3>Volume</h3>
+        <input
+          min="0"
+          max="99"
+          value="50"
+          class="slider"
+          id="myRange"
+          type="range"
+        />
+      </div>
+      <button
+        type="button"
+        id="skip"
+        onclick="input=document.getElementById('skip').value"
+      >
+        Skip Current Song
+      </button>
+    </div>
+    <br />
+    <div style="text-align: center">
+      <button id="Q" name="Queue" type="button">Queue</button>
+      <p id="q1" hidden="true"></p>
+      <p id="q2" hidden="true"></p>
+      <p id="q3" hidden="true"></p>
+      <p id="q4" hidden="true"></p>
+      <p id="q5" hidden="true"></p>
+    </div>
+    <div style="text-align: center">
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var socket = io("ws://192.168.1.24:8080");
+        window.addEventListener("load", function () {
+          var btn = document.getElementById("btn");
+          var skip = document.getElementById("skip");
+          var token = document.getElementById("gen_token");
+          token.addEventListener("click", function () {
+            let gen = Math.random().toString(36).substr(2, 4);
+            document.getElementById("token").innerHTML=gen;
+          });
+          btn.addEventListener("click", function () {
+            document.getElementById("header").innerHTML="Click to queue song!";
+              socket.send("!m" + input);
+          });
+          skip.addEventListener("click", function () {
+            socket.send("!s");
+          });
+        });
+        var slider = document.getElementById("myRange");
+        slider.oninput = function () {
+          socket.send("!v" + this.value);
+        };
+
+        var thumb1 = document.getElementById("thumb1");
+        var thumb2 = document.getElementById("thumb2");
+        var thumb3 = document.getElementById("thumb3");
+        function clear() {
+          document.getElementById("thumb1_t").innerHTML = "";
+          document.getElementById("thumb1").src = "";
+          document.getElementById("thumb2_t").innerHTML = "";
+          document.getElementById("thumb2").src = "";
+          document.getElementById("thumb3_t").innerHTML = "";
+          document.getElementById("thumb3").src = "";
+          document.getElementById("header").innerHTML = "Queued!";
+          document.getElementById("tbl").hidden = true;
+        }
+        socket.on("search0", (title, thumbnail, link) => {
+          document.getElementById("thumb1_t").innerHTML = title;
+          document.getElementById("thumb1").src = thumbnail;
+          document.getElementById("tbl").hidden = false;
+          thumb1.addEventListener("click", function () {
+            if (link) socket.send(`!l${link}`);
+            clear();
+            link = "";
+          });
+        });
+        socket.on("search1", (title, thumbnail, link) => {
+          document.getElementById("thumb2_t").innerHTML = title;
+          document.getElementById("thumb2").src = thumbnail;
+          thumb2.addEventListener("click", function () {
+            if (link) socket.send(`!l${link}`);
+            clear();
+            link = "";
+          });
+        });
+        socket.on("search2", (title, thumbnail, link) => {
+          document.getElementById("thumb3_t").innerHTML = title;
+          document.getElementById("thumb3").src = thumbnail;
+          thumb3.addEventListener("click", function () {
+            if (link) socket.send(`!l${link}`);
+            clear();
+            link = "";
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>
