@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const client = express();
 
-const usetube = require("usetube");
+const yt = require("./yt_search.js");
 
 client.use(express.static('client')); //runs all file under ./client
 
@@ -48,13 +48,11 @@ case "!v":
   exec(`amixer set 'Master' ${arg}%`);
   break;
 case "!m":
-  usetube.searchVideo(arg).then((r) => {
-    socket.emit("search0", r.videos[0].original_title, `https://i.ytimg.com/vi/${r.videos[0].id}/hqdefault.jpg`,
-                `https://www.youtube.com/watch?v=${r.videos[0].id}`);
-    socket.emit("search1", r.videos[1].original_title, `https://i.ytimg.com/vi/${r.videos[1].id}/hqdefault.jpg`,
-                `https://www.youtube.com/watch?v=${r.videos[1].id}`);
-    socket.emit("search2", r.videos[2].original_title, `https://i.ytimg.com/vi/${r.videos[2].id}/hqdefault.jpg`,
-                `https://www.youtube.com/watch?v=${r.videos[2].id}`);
+  if(arg)
+  yt.search(arg).then((r) => {
+        socket.emit("search0", `${r[0].title} [${r[0].time}]`, r[0].thumbnail, r[0].link);
+        socket.emit("search1", `${r[1].title} [${r[1].time}]`, r[1].thumbnail, r[1].link);
+        socket.emit("search2", `${r[2].title} [${r[2].time}]`, r[2].thumbnail, r[2].link);
   });
   break;
 case "!l":

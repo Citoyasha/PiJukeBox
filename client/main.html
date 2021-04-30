@@ -26,15 +26,11 @@
 
       <br />
       <table
-        style="text-align: center"
-        id="tbl"
-        style="
-          width: 527px;
-          text-align: left;
+        style="text-align: center;
           margin-left: auto;
           margin-right: auto;
-          height: 127px;
         "
+        id="tbl"
         hidden="true"
         border="3"
       >
@@ -76,10 +72,10 @@
       <script src="/socket.io/socket.io.js"></script>
       <script>
         var socket = io("ws://192.168.1.24:8080");
-        window.addEventListener("load", function () {
-          var btn = document.getElementById("btn");
+        var btn = document.getElementById("btn");
           btn.addEventListener("click", function () {
             var token = document.getElementById("token").value;
+            if(input){
             document.getElementById("header").innerHTML =
               "Click to queue song!";
             if (token) {
@@ -89,8 +85,8 @@
                 "Wrong token, try again!";
               token = "";
             }
+            }
           });
-         });
 
         var thumb1 = document.getElementById("thumb1");
         var thumb2 = document.getElementById("thumb2");
