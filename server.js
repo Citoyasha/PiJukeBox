@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const client = express();
 
-const yt = require("./yt_search.js");
+const yt = require("@citoyasha/yt-search");
 
 client.use(express.static('client')); //runs all file under ./client
 
