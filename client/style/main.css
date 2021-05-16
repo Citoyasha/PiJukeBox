@@ -1,0 +1,69 @@
+.body {
+  background: linear-gradient(to bottom right, #1b262c, #393e46);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(25px + 3vmin);
+  font-family: 'Ubuntu', sans-serif;
+  text-align: center;
+}
+
+.header {
+  font-size: 75px;
+  font-family: cursive;
+  color: #3282b8;
+}
+
+.Text {
+  font-size: calc(20px + 2vmin);
+  font-family: 'Ubuntu', sans-serif;
+  color: #3282b8;
+}
+
+.boxes {
+  position: relative;
+  margin: 55px auto;
+  padding: 35px 35px 35px;
+  width: 200px;
+  background: #bbe1fa;
+  border-radius: 5px;
+}
+
+.button {
+  cursor: pointer;
+  border-radius: 1em;
+  color: #fff;
+  background: linear-gradient(to right, #3282b8, #1b262c);
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+.container {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-size: calc(10px + 2vmin);
+  font-family: 'Ubuntu', sans-serif;
+  color: #0f4c75;
+}
+
+.table {
+  list-style-type: none;
+}
+
+.table-row {
+  background-color: #bbe1fa;
+  position: relative;
+  margin: 55px auto;
+  padding: 35px 35px 35px;
+  border-radius: 5px;
+}
